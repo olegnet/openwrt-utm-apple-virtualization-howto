@@ -256,6 +256,7 @@ root@OpenWrt:~# ip a
 В терминале Openwrt
 
 ```shell
+uci set network.lan.proto='static'
 uci set network.lan.ipaddr='192.168.64.4'
 uci set network.lan.netmask='255.255.255.0'
 uci commit network
