@@ -10,6 +10,7 @@
   * [Первый запуск виртуальной машины](#первый-запуск-виртуальной-машины)
   * [Конфигурация установленной системы](#конфигурация-установленной-системы)
   * [Установка socks прокси](#бонус-установка-socks-прокси)
+  * [Пара лайфхаков](#пара-лайфхаков)
 
 ## О чем этот текст
 
@@ -350,5 +351,52 @@ open -a "Google Chrome Beta" --args --proxy-server=socks5://192.168.64.4:1080
 
 Теперь можно посмотреть лог командой `logread` и выключить логгирование, вернув `option quiet '1'` 
 в */etc/config/microsocks*.
+
+## Пара лайфхаков
+
+### UTM с Openwrt можно запускать на логине пользователя. Достаточно положить этот текст в `~/Library/LaunchAgents/com.utm.openwrt.plist`
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.utm.openwrt</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Applications/UTM.app/Contents/MacOS/utmctl</string>
+        <string>start</string>
+        <string>openwrt</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <false/>
+</dict>
+</plist>
+```
+
+Окно UTM, появляющееся на старте, можно смело закрывать. 
+Автоматизация закрывания этого окна остается упражнением для читателя.
+
+### Вместо того чтобы каждый раз открывать или переключаться в терминал, можно сделать небольшой скрипт.
+
+Открываем Script Editor (системное приложение в macOS) и пишем 
+```text
+do shell script "open -a 'Google Chrome Beta' --args --proxy-server=socks5://192.168.64.4:1080"
+```
+Далее в File -> Export нужно выбрать в File Format: Application (вместо Script) и сохранить,
+как `~/Applications/Chrome Beta with Proxy.app`
+
+Теперь это "приложение" можно добавить в Dock или запускать из Spotlight Search.
+
+### Почему в примере везде Google Chrome Beta вместо Google Chrome
+
+Мне удобно иметь один профиль, в котором закладки и история прозрачно синхронизируются в двух браузерах, 
+и при этом они ходят в сеть разными маршрутами. 
+
+Вместо него можно использовать любой другой. В Firefox можно даже настроить прокси один раз и просто пользоваться им
+без необходимости запускать с внешними параметрами.
 
 #### Copyright © 2025 Oleg Okhotnikov. All rights reserved.
