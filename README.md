@@ -300,6 +300,7 @@ opkg list-upgradable | awk '{print $1}' | xargs opkg upgrade
 ```shell
 opkg install htop btop lsof 
 opkg install joe nano  # <-- любой редактор по вашему вкусу
+opkg install luci-app-attendedsysupgrade  # будем обновлять Openwrt в Luci: System > Attended Sysupgrade
 ```
 
 Кстати, терминал, где мы запускали screen, уже можно закрыть.
